@@ -1,0 +1,12 @@
+[Unit]
+Description=Timer for jobstats data ingest into cluster r4 database tables
+Requires=ingest_jobstats-r4.service
+
+[Timer]
+Unit=ingest_jobstats-r4.service
+#OnCalendar=*:0/4
+OnBootSec=10min
+OnUnitActiveSec=4min
+
+[Install]
+WantedBy=timers.target
