@@ -390,9 +390,9 @@ class Jobstats:
                     self.get_data('gpu_used_memory', "max_over_time((nvidia_gpu_memory_used_bytes{{cluster='{cluster}'}} and nvidia_gpu_jobId == {jobid})[{diff}s:])")
             if not args or "gpu_utilization" in args:
                 if c.GPU_EXPORTER_JOBID:
-                    self.get_data('gpu_utilization', "avg_over_time(nvidia_gpu_duty_cycle{{cluster='{cluster}',jobid='{jobid}'}}[{diff}s:])")
+                    self.get_data('gpu_utilization', "avg_over_time((nvidia_gpu_duty_cycle{{cluster='{cluster}',jobid='{jobid}'}} or (nvidia_gpu_graphics_util_percent{{cluster='{cluster}',jobid='{jobid}'}} * 100))[{diff}s:])")
                 else:
-                    self.get_data('gpu_utilization', "avg_over_time((nvidia_gpu_duty_cycle{{cluster='{cluster}'}} and nvidia_gpu_jobId == {jobid})[{diff}s:])")
+                    self.get_data('gpu_utilization', "avg_over_time(((nvidia_gpu_duty_cycle{{cluster='{cluster}'}} or (nvidia_gpu_graphics_util_percent{{cluster='{cluster}'}} * 100)) and nvidia_gpu_jobId == {jobid})[{diff}s:])")
 
     def parse_stats(self):
         sp_node = self.sp_node
@@ -419,11 +419,10 @@ class Jobstats:
         total_cores = 0
         self.cpu_util_error_code = 0
         self.cpu_util__node_used_alloc_cores = []
-        for n in sp_node:
-            d = sp_node[n]
+        for n, d in sp_node.items():
             if 'total_time' in d and 'cpus' in d:
-                used  = sp_node[n]['total_time']
-                cores = sp_node[n]['cpus']
+                used  = d['total_time']
+                cores = d['cpus']
                 alloc = self.diff * cores
                 total += alloc
                 total_used += used
@@ -446,12 +445,11 @@ class Jobstats:
         total_cores = 0
         self.cpu_mem_error_code = 0
         self.cpu_mem__node_used_alloc_cores = []
-        for n in sp_node:
-            d = sp_node[n]
+        for n, d in sp_node.items():
             if 'used_memory' in d and 'total_memory' in d and 'cpus' in d:
-                used  = sp_node[n]['used_memory']
-                alloc = sp_node[n]['total_memory']
-                cores = sp_node[n]['cpus']
+                used  = d['used_memory']
+                alloc = d['total_memory']
+                cores = d['cpus']
                 total += alloc
                 total_used += used
                 total_cores += cores
@@ -473,8 +471,7 @@ class Jobstats:
             overall_gpu_count = 0
             self.gpu_util_error_code = 0
             self.gpu_util__node_util_index = []
-            for n in sp_node:
-                d = sp_node[n]
+            for n, d in sp_node.items():
                 if 'gpu_utilization' in d:
                     gpus = list(d['gpu_utilization'].keys())
                     gpus.sort()
@@ -497,8 +494,7 @@ class Jobstats:
             overall_total = 0
             self.gpu_mem_error_code = 0
             self.gpu_mem__node_used_total_index = []
-            for n in sp_node:
-                d = sp_node[n]
+            for n, d in sp_node.items():
                 if 'gpu_used_memory' in d and 'gpu_total_memory' in d:
                     gpus = list(d['gpu_total_memory'].keys())
                     gpus.sort()
