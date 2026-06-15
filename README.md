@@ -89,7 +89,7 @@ Jobs, GPU Fractionalization, Detailed Metrics, and GPU Sharing"
 - 24 Jul 2025: Jobstats wins "Best Poster Award" at [PEARC 2025](https://pearc.acm.org/proceedings-awards/)
 - 01 Jun 2025: [Job Defense Shield](https://princetonuniversity.github.io/job_defense_shield/) is available for sending email alerts, generating reports, and cancelling jobs with 0% GPU utilization
 
-### Getting Started
+### Installation and Getting Started
 
 Begin with [What is Jobstats?](https://princetonuniversity.github.io/jobstats/) in the documentation.
 
