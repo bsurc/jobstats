@@ -3,7 +3,7 @@
 ##########################
 
 # prometheus server address, port, and retention period
-PROM_SERVER = "http://cluster-stats:8480"
+PROM_SERVER = "http://192.168.1.104:9090" #8480"
 PROM_RETENTION_DAYS = 365
 
 # Set to True if GPU stats have jobid label as opposed to using nvidia_gpu_jobId
@@ -18,12 +18,12 @@ GPU_EXPORTER_JOBID = True
 # with sacct-based tools such as reportseff which read GPU/multi-node
 # efficiency from AdminComment.
 EXTERNAL_DB_CONFIG = {
-    "enabled": False,  # set to True to use the external db for storing stats
-    "host": "127.0.0.1",
-    "port": 3307,
-    "database": "jobstats",
-    "user": "jobstats",
-    "password": "password",
+    "enabled": False  # set to True to use the external db for storing stats
+#    "host": "127.0.0.1",
+#    "port": 3307,
+#    "database": "jobstats",
+#    "user": "jobstats",
+#    "password": "password",
 #     "config_file": "/path/to/jobstats-db.cnf",
 #     "mirror_to_admin_comment": False,  # also write JS1 payload to AdminComment via sacctmgr
 }
