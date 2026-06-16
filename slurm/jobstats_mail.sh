@@ -17,6 +17,8 @@ ClusterName=${SLURM_CLUSTER_NAME}
 subject="$ClusterName $2"
 recipient=$3
 
+export PATH=/shared/apps/slurm/current/bin:$PATH
+
 # as per slurm.conf man page this var is set if job finished
 if [ -n "$SLURM_JOB_RUN_TIME" ]; then
     jobid=$SLURM_JOB_ID
