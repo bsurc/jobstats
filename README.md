@@ -79,6 +79,8 @@ $ jobstats 39798795
 
 ### News and Updates
 
+- 2X Jul 2026: Jobstats presentation at PEARC 2026: "Getting the Most Out of Your GPUs: Automatic Cancellation of Low Efficiency
+Jobs, GPU Fractionalization, Detailed Metrics, and GPU Sharing"
 - 23 Apr 2026: Presentation on Jobstats at NCAR ([see slides](https://researchcomputing.princeton.edu/document/6811))
 - 16 Nov 2025: The Jobstats team will be available at Supercomputing 2025 for any discussions (see contact below)
 - 28 Sep 2025: Subscribe to the [Jobstats mailing list](https://lists.princeton.edu/cgi-bin/wa?SUBED1=JOBSTATS&A=1)
@@ -87,7 +89,7 @@ $ jobstats 39798795
 - 24 Jul 2025: Jobstats wins "Best Poster Award" at [PEARC 2025](https://pearc.acm.org/proceedings-awards/)
 - 01 Jun 2025: [Job Defense Shield](https://princetonuniversity.github.io/job_defense_shield/) is available for sending email alerts, generating reports, and cancelling jobs with 0% GPU utilization
 
-### Getting Started
+### Installation and Getting Started
 
 Begin with [What is Jobstats?](https://princetonuniversity.github.io/jobstats/) in the documentation.
 

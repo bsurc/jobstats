@@ -3,19 +3,29 @@
 ##########################
 
 # prometheus server address, port, and retention period
-PROM_SERVER = "http://cluster-stats:8480"
+PROM_SERVER = "http://192.168.1.104:9090" #8480"
 PROM_RETENTION_DAYS = 365
 
-# if using Slurm database then include the lines below with "enabled": False
-# if using MariaDB then set "enabled": True and uncomment "config_file"
+# Set to True if GPU stats have jobid label as opposed to using nvidia_gpu_jobId
+# This is available as of version 0.2.2 Sept 2025 in the repo
+# https://github.com/plazonic/nvidia_gpu_prometheus_exporter/
+GPU_EXPORTER_JOBID = True
+
+# If using Slurm database then include the lines below with "enabled": False
+# If using MariaDB/MySQL then set "enabled": True
+# Set "mirror_to_admin_comment": True to additionally write the JS1 payload
+# to the Slurm AdminComment field (sacctmgr). This preserves compatibility
+# with sacct-based tools such as reportseff which read GPU/multi-node
+# efficiency from AdminComment.
 EXTERNAL_DB_CONFIG = {
-    "enabled": False,  # set to True to use the external db for storing stats
-    "host": "127.0.0.1",
-    "port": 3307,
-    "database": "jobstats",
-    "user": "jobstats",
-    "password": "password",
-#     "config_file": "/path/to/jobstats-db.cnf"
+    "enabled": False  # set to True to use the external db for storing stats
+#    "host": "127.0.0.1",
+#    "port": 3307,
+#    "database": "jobstats",
+#    "user": "jobstats",
+#    "password": "password",
+#     "config_file": "/path/to/jobstats-db.cnf",
+#     "mirror_to_admin_comment": False,  # also write JS1 payload to AdminComment via sacctmgr
 }
 
 # number of seconds between measurements
@@ -446,7 +456,7 @@ MIG_NODES_1 = {"della-l01g3", "della-l01g4", "della-l01g5", "della-l01g6", "dell
                "adroit-h11g2"}
 condition = 'self.js.cluster == "della" and self.js.partition in ("gpu", "gputest") ' \
             'and self.js.is_mig_job()'
-note = ("This job used a 40GB MIG GPU which work well for almost all codes. " \
+note = ("This job used a 40GB MIG GPU which works well for almost all codes. " \
         "A 40GB MIG GPU has half the compute power of a full A100 GPU. If " \
         "a full A100 is needed or if you suspect that MIG is causing problems " \
         "then see \"nomig\" on this webpage:",

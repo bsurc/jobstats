@@ -1,0 +1,10 @@
+[Unit]
+Description=Ingest jobstats data into cluster r4 database tables
+Wants=ingest_jobstats-r4.timer
+
+[Service]
+Type=oneshot
+ExecStart=/home/rocky/jobstats/slurm/ingest_jobstats -c r4 -n 1000
+
+[Install]
+WantedBy=multi-user.target

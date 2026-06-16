@@ -1,6 +1,8 @@
+#!/usr/bin/env bash
 #!/bin/bash
 # it looks like that this is sometimes too fast, wait a tiny bit to let slurmdbd get the data it needs
 sleep 5s
+
 # We need to treat differently array jobs where jobid=slurm array jobid or else we will overwrite all
 # array jobs with the same data. Therefore use ${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID} instead of
 # jobid for those jobs.
@@ -9,7 +11,10 @@ if [ "x$SLURM_ARRAY_JOB_ID" = "x$SLURM_JOB_ID" ]; then
 else
 	INTERNAL_JOBID=$SLURM_JOB_ID
 fi
-logger SlurmctldEpilog[$INTERNAL_JOBID]: Begin processing
+logger "SlurmctldEpilog[$INTERNAL_JOBID]: Begin processing"
+
+export PATH=/shared/apps/slurm/current/bin:$PATH
+
 STATS="`jobstats -f -b $SLURM_JOB_ID`"
 ERR=$?
 if [ $ERR = 0 ]; then

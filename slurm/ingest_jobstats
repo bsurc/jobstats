@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SBIN_DIR="/home/rocky/jobstats/slurm"
+BIN_DIR="/home/rocky/jobstats"
 jobstats_dir() {
 	if [ -n "$JOBSTATS_DIR" ]; then
 		echo "$JOBSTATS_DIR"
@@ -56,19 +58,19 @@ fi
 USE_EXTERNAL=false
 if external_db_enabled; then
 	USE_EXTERNAL=true
-	if [ ! -x "/usr/local/bin/store_jobstats.py" ]; then
-		echo "External database is enabled but /usr/local/bin/store_jobstats.py is not installed." >&2
+	if [ ! -x "$BIN_DIR/store_jobstats.py" ]; then
+		echo "External database is enabled but $BIN_DIR/store_jobstats.py is not installed." >&3
 		exit 1
 	fi
 fi
 
-for i in $(/usr/local/sbin/jobs_with_no_data.py -c $CLUSTER $DAYS $MAXJOBS); do
+for i in $($SBIN_DIR/jobs_with_no_data.py -c $CLUSTER $DAYS $MAXJOBS); do
 	STATS="`jobstats -f -b -c $CLUSTER $i`"
 	ERR=$?
 	if [ $ERR = 0 ]; then
 		if [[ $STATS =~ ^(Short|None|H4s) ]]; then
 			if [ "$USE_EXTERNAL" = true ]; then
-				OUT="`/usr/local/bin/store_jobstats.py --cluster=$CLUSTER --jobid=$i --stats="JS1:$STATS" 2>&1`"
+				OUT="`$BIN_DIR/store_jobstats.py --cluster=$CLUSTER --jobid=$i --stats="JS1:$STATS" 2>&1`"
 				if [ $? != 0 ]; then
 					echo "Job ${i}: Errored out when storing external database row with $OUT" >&2
 				elif [ -n "$VERBOSE" ]; then
